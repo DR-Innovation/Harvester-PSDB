@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chc:ChaosHarvesterConfiguration xmlns:chc="http://www.example.org/ChaosHarvesterConfiguration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/ChaosHarvesterConfiguration ../../Base/schemas/ChaosHarvesterConfiguration.xsd ">
+  <chc:Organisation>Danmarks Radio</chc:Organisation>
+  <chc:Project>PSDB</chc:Project>
+  <chc:Description>This harvester fetches video from http://www.dr.dk/mu-online</chc:Description>
+  <chc:Timezone>Europe/Copenhagen</chc:Timezone>
+  <chc:BasePath fromEnvironment="BASEPATH" />
+  <chc:IncludePaths>
+  	<chc:path>abstract-harvester-base/src</chc:path>
+  	<chc:path>abstract-harvester-base/lib/CHAOS-Client/src</chc:path>
+  	<chc:path>abstract-harvester-base/lib/Timed-PHP/src</chc:path>
+  	<chc:path>../src</chc:path>
+  </chc:IncludePaths>
+  <chc:ChaosConfiguration>
+  	<chc:URL fromEnvironment="CHAOS_URL" />
+  	<chc:Email fromEnvironment="CHAOS_EMAIL" />
+  	<chc:Password fromEnvironment="CHAOS_PASSWORD" />
+  </chc:ChaosConfiguration>
+  <chc:ExternalClient className="LoadablePSDBClient" name="psdb"
+	   namespace="CHAOS\Harvester\PSDB">
+  	<chc:Parameter name="baseUrl">https://www.dr.dk/mu-online/api/1.3/</chc:Parameter>
+  </chc:ExternalClient>
+  <chc:Modes>
+  	<chc:Mode className="ListByReferenceMode"
+  		namespace="CHAOS\Harvester\PSDB\Modes" name="list-reference" />
+  	<chc:Mode className="SingleByIdentifierMode"
+  		namespace="CHAOS\Harvester\PSDB\Modes" name="single-reference" />
+  </chc:Modes>
+  <chc:Processors>
+  	<chc:ObjectProcessor className="ItemObjectProcessor"
+  		namespace="\CHAOS\Harvester\PSDB\Processors" name="item">
+  		<chc:FolderId>2425</chc:FolderId>
+  		<chc:ObjectTypeId>36</chc:ObjectTypeId>
+  		<chc:PublishSettings>
+  			<chc:PublishAccesspoint>
+  				C4C2B8DA-A980-11E1-814B-02CEA2621172
+  			</chc:PublishAccesspoint>
+  			<chc:UnpublishAccesspoint>
+  				C4C2B8DA-A980-11E1-814B-02CEA2621172
+  			</chc:UnpublishAccesspoint>
+  		</chc:PublishSettings>
+  	</chc:ObjectProcessor>
+  	<chc:MetadataProcessor className="ItemDKA2MetadataProcessor"
+  		namespace="\CHAOS\Harvester\PSDB\Processors" name="item_metadata_dka2">
+  	  <chc:validate>true</chc:validate>
+  	  <chc:schemaGUID>5906a41b-feae-48db-bfb7-714b3e105396</chc:schemaGUID>
+  	  <chc:schemaLocation>abstract-harvester-base/schemas/DKA2.xsd</chc:schemaLocation>
+  	</chc:MetadataProcessor>
+  	<chc:FileProcessor className="ItemThumbnailFileProcessor"
+  		namespace="\CHAOS\Harvester\PSDB\Processors" name="item_file_thumbnail">
+  	  <chc:FormatId>10</chc:FormatId>
+  	  <chc:Destination name="default">
+    		<chc:baseURL>https://www.dr.dk/mu-online/api/1.3/bar/</chc:baseURL>
+    		<chc:id>123456789</chc:id>
+  	  </chc:Destination>
+  	</chc:FileProcessor>
+  	<chc:FileProcessor className="ItemVideoFileProcessor"
+  		namespace="\CHAOS\Harvester\PSDB\Processors" name="item_file_video">
+      <chc:Parameter name="SECRET" fromEnvironment="PSDB_VIDEO_SECRET" />
+  	  <chc:FormatId>8</chc:FormatId>
+  	  <chc:Destination name="default">
+    		<chc:baseURL>http://</chc:baseURL>
+    		<chc:id>123456789</chc:id>
+  	  </chc:Destination>
+  	</chc:FileProcessor>
+  </chc:Processors>
+</chc:ChaosHarvesterConfiguration>
