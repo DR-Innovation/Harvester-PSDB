@@ -14,7 +14,7 @@ class ListByReferenceMode extends SetByReferenceMode implements Loadable {
     // Fetch the list by reference
     $this->_harvester->info("Fetching the `$reference` list");
 
-    $offset = 210;
+    $offset = 0;
     do {
       $list = $psdb->getList($reference, self::LIMIT, $offset);
       $items = $list->Items;
