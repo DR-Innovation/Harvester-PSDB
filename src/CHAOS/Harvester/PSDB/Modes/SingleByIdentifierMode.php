@@ -7,16 +7,16 @@ use CHAOS\Harvester\Loadable;
 
 class SingleByIdentifierMode extends SingleByReferenceMode implements Loadable {
 
-	/**
-	 * Constructs the PSDB Client.
-	 * @param \CHAOS\Harvester\ChaosHarvester $harvester
-	 * @param string $name The name of the Loadable in the harvester.
-	 */
-	public function __construct($harvester, $name, $parameters) {
+	public function execute($reference) {
+		$psdb = $this->_harvester->getExternalClient('psdb');
+		// Fetch the list by reference
+		$this->_harvester->info("Fetching the `$reference` ProgramCard");
 
-  }
-
-  public function execute($reference) {
-    echo "Executing SingleByIdentifierMode with $reference\n";
-  }
+		$detailedItem = $psdb->getProgramCard($reference, true);
+		try {
+			$itemShadow = $this->_harvester->process('item', $detailedItem);
+		} catch(\Exception $e) {
+			$this->_harvester->registerProcessingException($e, $movieObject, $movieShadow);
+		}
+	}
 }
