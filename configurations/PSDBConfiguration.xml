@@ -50,8 +50,8 @@
   		namespace="\CHAOS\Harvester\PSDB\Processors" name="item_file_thumbnail">
   	  <chc:FormatId>10</chc:FormatId>
   	  <chc:Destination name="default">
-    		<chc:baseURL>https://www.dr.dk/mu-online/api/1.3/bar/</chc:baseURL>
-    		<chc:id>123456789</chc:id>
+    		<chc:baseURL>https://www.dr.dk/mu-online/api/1.3/bar</chc:baseURL>
+    		<chc:id>131</chc:id>
   	  </chc:Destination>
   	</chc:FileProcessor>
   	<chc:FileProcessor className="ItemVideoFileProcessor"
@@ -60,7 +60,7 @@
   	  <chc:FormatId>8</chc:FormatId>
   	  <chc:Destination name="default">
     		<chc:baseURL>http://</chc:baseURL>
-    		<chc:id>123456789</chc:id>
+    		<chc:id>132</chc:id>
   	  </chc:Destination>
   	</chc:FileProcessor>
   </chc:Processors>
