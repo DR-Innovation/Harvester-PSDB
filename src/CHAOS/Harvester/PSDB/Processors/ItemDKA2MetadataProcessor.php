@@ -37,6 +37,7 @@ class ItemDKA2MetadataProcessor extends MetadataProcessor {
     $result->addChild('ExternalURL', $external_url);
     $result->addChild('ExternalIdentifier', $externalObject->Urn);
     $result->addChild('Type', 'Video');
+    $result->addChild('FirstPublishedDate', $externalObject->PrimaryBroadcastStartTime);
 
     $result->addChild('Contributors');
     $result->addChild('Creators');
