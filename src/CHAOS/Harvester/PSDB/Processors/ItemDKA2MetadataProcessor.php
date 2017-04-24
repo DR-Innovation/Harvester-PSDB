@@ -48,7 +48,10 @@ class ItemDKA2MetadataProcessor extends MetadataProcessor {
     $tags = $result->addChild('Tags');
     $subtitleExploded = explode(';', $externalObject->Subtitle);
     foreach($subtitleExploded as $tagString) {
-      $tags->addChild('Tag', htmlspecialchars(trim($tagString)));
+      $trimmedTag = trim($tagString);
+      if(!empty($trimmedTag)) {
+        $tags->addChild('Tag', htmlspecialchars($trimmedTag));
+      }
     }
 
     return $result;
