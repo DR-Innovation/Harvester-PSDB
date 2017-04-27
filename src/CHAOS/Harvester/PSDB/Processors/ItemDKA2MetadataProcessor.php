@@ -4,8 +4,8 @@ namespace CHAOS\Harvester\PSDB\Processors;
 
 use \SimpleXMLElement;
 
-use CHAOS\Harvester\Processors\MetadataProcessor;
-use CHAOS\Harvester\Shadows\ObjectShadow;
+use \CHAOS\Harvester\Processors\MetadataProcessor;
+use \CHAOS\Harvester\Shadows\ObjectShadow;
 
 class ItemDKA2MetadataProcessor extends MetadataProcessor {
 
