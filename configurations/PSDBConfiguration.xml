@@ -63,5 +63,14 @@
     		<chc:id>132</chc:id>
   	  </chc:Destination>
   	</chc:FileProcessor>
+  	<chc:FileProcessor className="ItemAudioFileProcessor"
+  		namespace="\CHAOS\Harvester\PSDB\Processors" name="item_file_audio">
+      <chc:Parameter name="SECRET" fromEnvironment="PSDB_VIDEO_SECRET" />
+  	  <chc:FormatId>23</chc:FormatId>
+  	  <chc:Destination name="default">
+    		<chc:baseURL>http://</chc:baseURL>
+    		<chc:id>132</chc:id>
+  	  </chc:Destination>
+  	</chc:FileProcessor>
   </chc:Processors>
 </chc:ChaosHarvesterConfiguration>

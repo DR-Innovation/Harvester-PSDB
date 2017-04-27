@@ -20,6 +20,7 @@ class ItemObjectProcessor extends ObjectProcessor {
     // Process the files
 		$this->_harvester->process('item_file_thumbnail', $externalObject, $shadow);
     $this->_harvester->process('item_file_video', $externalObject, $shadow);
+    $this->_harvester->process('item_file_audio', $externalObject, $shadow);
 		$this->_harvester->process('item_metadata_dka2', $externalObject, $shadow);
     //var_dump($shadow);
     $shadow->commit($this->_harvester);
