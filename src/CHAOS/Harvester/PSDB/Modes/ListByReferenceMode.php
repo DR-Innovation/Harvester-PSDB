@@ -5,6 +5,12 @@ namespace CHAOS\Harvester\PSDB\Modes;
 use CHAOS\Harvester\Modes\SetByReferenceMode;
 use CHAOS\Harvester\Loadable;
 
+use RuntimeException;
+
+assert_options(ASSERT_CALLBACK, function($msg) {
+	throw new RuntimeException($msg);
+});
+
 class ListByReferenceMode extends SetByReferenceMode implements Loadable {
 
   const LIMIT = 10;

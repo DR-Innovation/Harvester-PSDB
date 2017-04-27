@@ -5,6 +5,12 @@ namespace CHAOS\Harvester\PSDB\Modes;
 use CHAOS\Harvester\Modes\SingleByReferenceMode;
 use CHAOS\Harvester\Loadable;
 
+use RuntimeException;
+
+assert_options(ASSERT_CALLBACK, function($msg) {
+	throw new RuntimeException($msg);
+});
+
 class SingleByIdentifierMode extends SingleByReferenceMode implements Loadable {
 
 	public function execute($reference) {
