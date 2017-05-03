@@ -17,11 +17,18 @@ class ItemObjectProcessor extends ObjectProcessor {
   public function process(&$externalObject, &$shadow = null) {
 		$shadow = new ObjectShadow();
 		$shadow = $this->initializeShadow($externalObject, $shadow);
+
     // Process the files
-		$this->_harvester->process('item_file_thumbnail', $externalObject, $shadow);
     $this->_harvester->process('item_file_video', $externalObject, $shadow);
     $this->_harvester->process('item_file_audio', $externalObject, $shadow);
+    // If no video or audio exists - let's skip this
+    if(empty($shadow->fileShadows)) {
+      $shadow->skipped = true;
+    }
+
+		$this->_harvester->process('item_file_thumbnail', $externalObject, $shadow);
 		$this->_harvester->process('item_metadata_dka2', $externalObject, $shadow);
+
     //var_dump($shadow);
     $shadow->commit($this->_harvester);
     return $shadow;
