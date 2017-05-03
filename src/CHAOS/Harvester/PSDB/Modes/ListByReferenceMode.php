@@ -39,4 +39,8 @@ class ListByReferenceMode extends SetByReferenceMode implements Loadable {
       $offset += self::LIMIT;
     } while($offset < $list->TotalSize);
   }
+
+	public function shouldCleanUp() {
+		return true;
+	}
 }
