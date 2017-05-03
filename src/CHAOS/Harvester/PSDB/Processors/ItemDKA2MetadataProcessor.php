@@ -29,7 +29,7 @@ class ItemDKA2MetadataProcessor extends MetadataProcessor {
 
     // Mapping metadata
     $title = $externalObject->Title;
-    $result->addChild('Title', trim($title));
+    $result->addChild('Title', htmlentities(trim($title), ENT_XML1));
     $result->addChild('Abstract', '');
     $result->addChild('Description', $externalObject->Description);
     $result->addChild('Organization', self::ORGANIZATION_NAME);
