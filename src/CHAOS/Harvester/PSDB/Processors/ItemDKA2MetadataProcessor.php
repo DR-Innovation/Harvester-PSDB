@@ -31,7 +31,7 @@ class ItemDKA2MetadataProcessor extends MetadataProcessor {
     $title = $externalObject->Title;
     $result->addChild('Title', htmlentities(trim($title), ENT_XML1));
     $result->addChild('Abstract', '');
-    $result->addChild('Description', $externalObject->Description);
+    $result->addChild('Description', htmlentities($externalObject->Description, ENT_XML1));
     $result->addChild('Organization', self::ORGANIZATION_NAME);
     $external_url = 'https://www.dr.dk/tv/se/-/-/' . $externalObject->Slug;
     $result->addChild('ExternalURL', $external_url);
