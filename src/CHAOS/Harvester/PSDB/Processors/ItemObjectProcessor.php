@@ -18,6 +18,9 @@ class ItemObjectProcessor extends ObjectProcessor {
 		$shadow = new ObjectShadow();
 		$shadow = $this->initializeShadow($externalObject, $shadow);
 
+    $urn = $externalObject->Urn;
+    $this->_harvester->info("Processing `$urn`");
+
     // Process the files
     $this->_harvester->process('item_file_video', $externalObject, $shadow);
     $this->_harvester->process('item_file_audio', $externalObject, $shadow);
