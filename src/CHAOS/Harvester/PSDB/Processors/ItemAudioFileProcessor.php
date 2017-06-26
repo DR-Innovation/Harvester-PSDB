@@ -24,7 +24,9 @@ class ItemAudioFileProcessor extends FileProcessor {
 
         assert($hls_link, 'Expected at least one HLS link');
         $fileShadow = $this->createFileShadowFromURL($hls_link->Uri);
-        $shadow->fileShadows[] = $fileShadow;
+        if($fileShadow) {
+          $shadow->fileShadows[] = $fileShadow;
+        }
       }
     }
   }
