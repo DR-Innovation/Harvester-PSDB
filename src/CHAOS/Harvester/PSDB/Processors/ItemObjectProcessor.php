@@ -26,6 +26,7 @@ class ItemObjectProcessor extends ObjectProcessor {
     $this->_harvester->process('item_file_audio', $externalObject, $shadow);
     // If no video or audio exists - let's skip this
     if(empty($shadow->fileShadows)) {
+      $this->_harvester->debug('Skip object because empty file shadows.');
       $shadow->skipped = true;
     }
 

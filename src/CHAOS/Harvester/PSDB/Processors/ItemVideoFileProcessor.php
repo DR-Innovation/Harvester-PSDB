@@ -9,6 +9,7 @@ use CHAOS\Harvester\Shadows\ObjectShadow;
 class ItemVideoFileProcessor extends FileProcessor {
 
   public function process(&$externalObject, &$shadow = null) {
+    $this->_harvester->debug('PrimaryAsset: ' . var_export($externalObject, true));
 		// Precondition
 		assert($shadow instanceof ObjectShadow);
     if(property_exists($externalObject, 'PrimaryAsset')) {
@@ -28,6 +29,9 @@ class ItemVideoFileProcessor extends FileProcessor {
           $shadow->fileShadows[] = $fileShadow;
         }
       }
+    }
+    else {
+        $this->_harvester->debug('No PrimaryAsset: ' . var_export($externalObject, true));
     }
   }
 }
