@@ -23,7 +23,7 @@ class ListByReferenceMode extends SetByReferenceMode implements Loadable {
     $offset = 0;
     do {
       $list = $psdb->getList($reference, self::LIMIT, $offset);
-      $this->_harvester->debug('TotalSize of list: ' . $list->TotalSize);
+      $this->_harvester->info('TotalSize of list: ' . $list->TotalSize);
       $items = $list->Items;
       foreach($items as $item) {
         if($item->Type === 'ProgramCard') {
