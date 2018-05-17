@@ -54,7 +54,7 @@ class PSDBClient {
     $decoded_result = json_decode($result);
 
     if (is_null($decoded_result)) {
-        throw new \RuntimeException('Could not decode JSON from PSDB: ' . json_last_error_msg());
+        throw new \RuntimeException('Could not decode JSON response from PSDB (' . json_last_error_msg() . ') - response was: ' . var_export($result, true));
     }
 
     return $decoded_result;
