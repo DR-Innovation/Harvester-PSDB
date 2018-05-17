@@ -40,15 +40,24 @@ class PSDBClient {
       curl_setopt($this->_curlHandle, CURLOPT_RETURNTRANSFER, true);
     }
     $url = $this->_baseUrl . $path;
+
     // Set the URL
-		curl_setopt($this->_curlHandle, CURLOPT_URL, $url);
-		// Fetch the website.
-		$result = curl_exec($this->_curlHandle);
-		if($result === false) {
-			throw new \RuntimeException("Error from the PSDB webservice ($url): " . curl_error($this->_curlHandle));
-		} else {
-      return json_decode($result);
+    curl_setopt($this->_curlHandle, CURLOPT_URL, $url);
+
+    // Fetch the website.
+    $result = curl_exec($this->_curlHandle);
+
+    if ($result === false) {
+        throw new \RuntimeException("Error from the PSDB webservice ($url): " . curl_error($this->_curlHandle));
     }
+
+    $decoded_result = json_decode($result);
+
+    if (is_null($decoded_result)) {
+        throw new \RuntimeException('Could not decode JSON from PSDB: ' . json_last_error_msg());
+    }
+
+    return $decoded_result;
   }
 }
 
