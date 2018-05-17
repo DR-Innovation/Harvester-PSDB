@@ -45,7 +45,7 @@ class PSDBClient {
 		// Fetch the website.
 		$result = curl_exec($this->_curlHandle);
 		if($result === false) {
-			throw new \RuntimeException("Error from the PSDB webservice ($url)");
+			throw new \RuntimeException("Error from the PSDB webservice ($url): " . curl_error($this->_curlHandle));
 		} else {
       return json_decode($result);
     }

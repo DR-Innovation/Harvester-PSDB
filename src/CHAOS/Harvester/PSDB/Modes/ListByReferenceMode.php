@@ -23,6 +23,18 @@ class ListByReferenceMode extends SetByReferenceMode implements Loadable {
     $offset = 0;
     do {
       $list = $psdb->getList($reference, self::LIMIT, $offset);
+
+      if (
+          !is_object($list) ||
+          !isset($list->TotalSize) ||
+          !is_int($list->TotalSize) ||
+          !isset($list->Items) ||
+          !is_array($list->Items)
+      ) {
+          $this->_harvester->info('Unexpected response from PSDB: ' . var_export($list, true));
+          throw new \RuntimeException('Unexpected response from PSDB');
+      }
+
       $this->_harvester->info('TotalSize of list: ' . $list->TotalSize);
       $items = $list->Items;
       foreach($items as $item) {
