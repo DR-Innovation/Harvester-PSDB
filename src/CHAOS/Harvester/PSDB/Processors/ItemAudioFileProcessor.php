@@ -5,6 +5,7 @@ namespace CHAOS\Harvester\PSDB\Processors;
 use CHAOS\Harvester\Loadable;
 use CHAOS\Harvester\Processors\FileProcessor;
 use CHAOS\Harvester\Shadows\ObjectShadow;
+use DR\PSDB\EncryptedUri;
 
 class ItemAudioFileProcessor extends FileProcessor {
 
@@ -21,6 +22,15 @@ class ItemAudioFileProcessor extends FileProcessor {
             return $link;
           }
         }, null);
+
+        try {
+            if (empty($hls_link->Uri) && isset($hls_link->EncryptedUri) && is_string($hls_link->EncryptedUri)) {
+                $hls_link->Uri = (new EncryptedUri($hls_link->EncryptedUri))->uri();
+                $this->_harvester->debug("Decrypted URI: {$hls_link->Uri}");
+            }
+        } catch (\Exception $e) {
+            $this->_harvester->info("Could not decrypt encrypted URI: {$e->getMessage()}");
+        }
 
         assert($hls_link, 'Expected at least one HLS link');
         $fileShadow = $this->createFileShadowFromURL($hls_link->Uri);
