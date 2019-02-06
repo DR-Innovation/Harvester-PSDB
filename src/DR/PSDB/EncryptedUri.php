@@ -25,7 +25,7 @@ class EncryptedUri
     protected $encryptedUri;
 
     /**
-     * @var string $version Algorithm version of the encrypted URI.
+     * @var int $version Algorithm version of the encrypted URI.
      */
     protected $version;
 
@@ -51,7 +51,13 @@ class EncryptedUri
     public function __construct(string $encryptedUri, string $secret = null)
     {
         $this->encryptedUri = $encryptedUri;
-        $this->version = hexdec(substr($this->encryptedUri, 0, self::VERSION_HEX_SIZE));
+        $version = hexdec(substr($this->encryptedUri, 0, self::VERSION_HEX_SIZE));
+
+        if (!is_int($version)) {
+            throw new \RuntimeException('Could not decode Encrypted URI version field');
+        }
+
+        $this->version = $version;
 
         // If no secret is supplied we get it from the environment.
         if (!is_string($secret)) {
@@ -77,17 +83,15 @@ class EncryptedUri
      */
     public function uri() : string
     {
+        $decryptMethod = "decryptEncryptedUriVersion{$this->version}";
+
         // Throw an error if the URI is encrypted with an unknown
         // algorithm.
-        if (!method_exists($this, "decryptEncryptedUriVersion{$this->version}")) {
+        if (!method_exists($this, $decryptMethod)) {
             throw new \UnexpectedValueException("Unknown algorithm (version {$this->version})");
         }
 
-        return call_user_func(
-            [$this, "decryptEncryptedUriVersion{$this->version}"],
-            $this->encryptedUri,
-            $this->secret
-        );
+        return $this->$decryptMethod($this->encryptedUri, $this->secret);
     }
 
     /**
@@ -106,6 +110,11 @@ class EncryptedUri
         $header = substr($encryptedUri, self::VERSION_HEX_SIZE, self::V1_HEADER_HEX_SIZE);
 
         $payloadLength = hexdec($header);
+
+        if (!is_int($payloadLength)) {
+            throw new \RuntimeException('Could not decode Encrypted URI version 1 header');
+        }
+
         $payloadOffset = self::VERSION_HEX_SIZE + self::V1_HEADER_HEX_SIZE;
         $payload = substr($encryptedUri, $payloadOffset, $payloadLength);
 
@@ -115,13 +124,44 @@ class EncryptedUri
         $cipher = hash('sha256', $initialVector . ':' . $secret);
 
         $uri = openssl_decrypt(
-            hex2bin($payload),
+            $this->hex2bin($payload),
             'AES-256-CBC-HMAC-SHA1',
-            hex2bin($cipher),
+            $this->hex2bin($cipher),
             OPENSSL_RAW_DATA,
-            hex2bin($initialVector)
+            $this->hex2bin($initialVector)
         );
 
+        if (!is_string($uri)) {
+            throw new \RuntimeException('Could not decrypt encrypted URI');
+        }
+
         return $uri;
+    }
+
+    /**
+     * Helper for converting hex string data to binary string.
+     *
+     * Just like standard `hex2bin()` but is guaranteed to return a
+     * string or throw an exception instead of `hex2bin()` which
+     * return `string|false`.
+     *
+     * @param string $data
+     *   The data as a hex string.
+     *
+     * @return string
+     *   The data as a binary string.
+     *
+     * @throws \RuntimeException
+     *   When the data could not be converted from hex to bin.
+     */
+    protected function hex2bin(string $data) : string
+    {
+        $binData = hex2bin($data);
+
+        if (!is_string($binData)) {
+            throw new \RuntimeException('Could not decode Encrypted URI version 1');
+        }
+
+        return $binData;
     }
 }
