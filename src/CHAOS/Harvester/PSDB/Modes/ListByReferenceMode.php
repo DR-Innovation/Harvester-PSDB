@@ -39,8 +39,8 @@ class ListByReferenceMode extends SetByReferenceMode implements Loadable {
       $items = $list->Items;
       foreach($items as $item) {
         if($item->Type === 'ProgramCard') {
-          $detailedItem = $psdb->getProgramCard($item->Urn, true);
           try {
+            $detailedItem = $psdb->getProgramCard($item->Urn, true);
             $itemShadow = $this->_harvester->process('item', $detailedItem);
           } catch(\Exception $e) {
             $this->_harvester->registerProcessingException($e, $movieObject, $movieShadow);
