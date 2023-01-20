@@ -135,7 +135,7 @@ class EncryptedUri
             throw new \RuntimeException('Could not decrypt encrypted URI');
         }
 
-        return $uri;
+        return preg_replace('/[[:cntrl:]]+$/', '', $uri);
     }
 
     /**
