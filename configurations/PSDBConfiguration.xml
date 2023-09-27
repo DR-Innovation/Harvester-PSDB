@@ -2,7 +2,7 @@
 <chc:ChaosHarvesterConfiguration xmlns:chc="http://www.example.org/ChaosHarvesterConfiguration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/ChaosHarvesterConfiguration ../../Base/schemas/ChaosHarvesterConfiguration.xsd ">
   <chc:Organisation>Danmarks Radio</chc:Organisation>
   <chc:Project>PSDB</chc:Project>
-  <chc:Description>This harvester fetches video from https://api.dr.dk/kulturarv/api/ (f.k.a. http://www.dr.dk/mu-online)</chc:Description>
+  <chc:Description>This harvester fetches video from http://www.dr.dk/mu-online</chc:Description>
   <chc:Timezone>Europe/Copenhagen</chc:Timezone>
   <chc:BasePath fromEnvironment="BASEPATH" />
   <chc:IncludePaths>
@@ -18,7 +18,7 @@
   </chc:ChaosConfiguration>
   <chc:ExternalClient className="LoadablePSDBClient" name="psdb"
 	   namespace="CHAOS\Harvester\PSDB">
-	<chc:Parameter name="baseUrl">https://api.dr.dk/kulturarv/api/</chc:Parameter>
+  	<chc:Parameter name="baseUrl">https://www.dr.dk/mu-online/api/1.3/</chc:Parameter>
   </chc:ExternalClient>
   <chc:Modes>
   	<chc:Mode className="ListByReferenceMode"
@@ -50,7 +50,7 @@
   		namespace="\CHAOS\Harvester\PSDB\Processors" name="item_file_thumbnail">
   	  <chc:FormatId>10</chc:FormatId>
   	  <chc:Destination name="default">
-		<chc:baseURL>https://api.dr.dk/kulturarv/api/bar</chc:baseURL>
+    		<chc:baseURL>https://www.dr.dk/mu-online/api/1.3/bar</chc:baseURL>
     		<chc:id>131</chc:id>
   	  </chc:Destination>
   	</chc:FileProcessor>
